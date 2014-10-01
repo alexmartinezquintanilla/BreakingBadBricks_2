@@ -30,9 +30,9 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
     /* objetos para manejar el buffer del JFrame y este no parpadee */
     // Imagen a proyectar en el JFrame
-    private Image imaImagenJFrame;   	
+    private Image imaImagenJFrame;
     // Objeto grafico de la Imagen
-    private Graphics graGraficaJFrame;  
+    private Graphics graGraficaJFrame;
     //Imagen de fondo
     private URL urlImagenBackG = this.getClass().getResource("fondo.png");
     //Contador de vidas
@@ -56,33 +56,33 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     //Contador para las veces que el crowbar ha sido colisionado (a cambiar
     //por número de veces que la charola ha sido colisionada?
     // Objeto SoundClip cuando la pelota colisiona con el crowbar o la pared
-    private SoundClip scSonidoColisionPelota;  
+    private SoundClip scSonidoColisionPelota;
     //Objeto SoundClip para cuando la charola es golpeada la primera vez
-    private SoundClip scSonidoColisionCharolaGolpeada; 
+    private SoundClip scSonidoColisionCharolaGolpeada;
     //Objeto SoundClip para cuando la charola es destruida 
-    private SoundClip scSonidoColisionCharolaRota; 
+    private SoundClip scSonidoColisionCharolaRota;
     //Objeto SoundClip para la música de fondo
-    private SoundClip scSonidoBGM; 
+    private SoundClip scSonidoBGM;
     //Objeto Soundclip para cuando la mosca está en la derecha
     private SoundClip scSonidoMoscaD;
     //Objeto SoundClip para cuando la mosca está en la izquierda
     private SoundClip scSonidoMoscaI;
     //Boleano para pausar el juego.
-    private boolean bPausado;    
+    private boolean bPausado;
     //URL para cargar imagen de la mosca
     private URL urlImagenMosca = this.getClass().getResource("Mosca/mosco.gif");
     //URL para cargar imagen de la charola
-    private URL urlImagenCharola = 
-            this.getClass().getResource("Charola/charola.png");
+    private URL urlImagenCharola
+            = this.getClass().getResource("Charola/charola.png");
     //URL para cargar imagen de la charola golpeada
-    private URL urlImagenCharolaGolpeada = 
-            this.getClass().getResource("Charola/charolagolpeada.png");
+    private URL urlImagenCharolaGolpeada
+            = this.getClass().getResource("Charola/charolagolpeada.png");
     //URL para cargar imagen de la charola rota
-    private URL urlImagenCharolaRota = 
-            this.getClass().getResource("Charola/charolarota.gif");
+    private URL urlImagenCharolaRota
+            = this.getClass().getResource("Charola/charolarota.gif");
     //URL para cargar la imagen de la pelota
-    private URL urlImagenPelota = 
-            this.getClass().getResource("proyectil.gif");
+    private URL urlImagenPelota
+            = this.getClass().getResource("proyectil.gif");
     //URL para cargar la imagen de pausa
     private URL urlImagenPausa = this.getClass().getResource("pause.png");
     //Imagen al pausar el juego.
@@ -132,36 +132,35 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
         //Inicializamos el score en 0
         iScore = 0;
-        
+
         //inicializamos el movimiento del proyectil en X en -1
         iMovX = 4;
-        
+
         //inicializamos el movimiento del proyectil en Y en -1
         iMovY = 4;
-        
+
         //inicializamos la variable que checa si ya empezó el juego en falso.
         bGameStarted = false;
-        
+
         //inicializamos la variable que checa si ya empezó el juego en falso.
         bGameOver = false;
-        
+
         //inicializamos la variable que checa si la pelota se salió del juego.
         bBallFell = true;
 
         // se crea imagen del crowbar
         URL urlImagenCrowbar = this.getClass().getResource("crowbar.png");
-        
+
         //se crea la imagen de la msoca
         URL urlImagenMosca = this.getClass().getResource("Mosca/mosco.gif");
-        
+
         //se crea el personaje mosca
         perMosca = new Personaje((int) (Math.random() * (this.getWidth() - 1) + 1), (int) (Math.random() * (this.getHeight() - 1) + 1),
                 Toolkit.getDefaultToolkit().getImage(urlImagenMosca));
         perMosca.setVelocidad(7);
-        if ( perMosca.getX() > this.getWidth() /2) {
+        if (perMosca.getX() > this.getWidth() / 2) {
             bUbicacionMosca = true;
-        }
-        else {
+        } else {
             bUbicacionMosca = false;
         }
 
@@ -170,14 +169,14 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 Toolkit.getDefaultToolkit().getImage(urlImagenCrowbar));
         //Se inicializa con velocidad 7
         perCrowbar.setVelocidad(7);
-        
-        perScoreVidas = new Personaje (40, 450 ,
+
+        perScoreVidas = new Personaje(40, 450,
                 Toolkit.getDefaultToolkit().getImage(urlImagenScoreVidas));
 
         // se posiciona al crowbar en el centro de la pantalla y en la parte inferior
         perCrowbar.setX((getWidth() / 2) - (perCrowbar.getAncho() / 2));
 //        perCrowbar.setY((getHeight() / 2) - (perCrowbar.getAlto() / 2));
-        perCrowbar.setY(getHeight() - perCrowbar.getAlto() -20);
+        perCrowbar.setY(getHeight() - perCrowbar.getAlto() - 20);
 
         // se posiciona a Susy en alguna parte al azar del cuadrante 
         // superior izquierdo
@@ -197,16 +196,15 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             perCharola = new Personaje(posX, posY,
                     Toolkit.getDefaultToolkit().getImage(urlImagenCharola));
             perCharola.setX(0 - perCharola.getAncho());
-            perCharola.setY((int) (Math.random() * (getHeight() 
+            perCharola.setY((int) (Math.random() * (getHeight()
                     - perCharola.getAlto())));
             perCharola.setVelocidad((int) (Math.random() * (5 - 3) + 3));
             lnkCharolas.add(perCharola);
         }
-        
+
         lnkProyectiles = new LinkedList();
-        
+
         //imagen de las vidas y el score como personaje
-           
         //se crean de 8 a 10 caminadores y se guardan en la lista de caminadores
         iAzar = (int) (Math.random() * (16 - 10) + 10);
         for (int iK = 1; iK <= iAzar; iK++) {
@@ -216,13 +214,13 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             Personaje perProyectil;
             perProyectil = new Personaje(posX, posY,
                     Toolkit.getDefaultToolkit().getImage(urlImagenPelota));
-            perProyectil.setX((int) (Math.random() * (getWidth() 
+            perProyectil.setX((int) (Math.random() * (getWidth()
                     - perProyectil.getAncho())));
-            perProyectil.setY(-perProyectil.getAlto() 
+            perProyectil.setY(-perProyectil.getAlto()
                     - ((int) (Math.random() * getWidth())));
             lnkProyectiles.add(perProyectil);
         }
-        
+
         //creo el sonido del crowbar golpeando la pelota
         scSonidoColisionPelota = new SoundClip("tapa.wav");
         //creo el sonido  de la charola golpeada la primera vez
@@ -236,16 +234,16 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         //Creo el sonido para cuando la mosca estará en la derecha y loopeo
         scSonidoMoscaD = new SoundClip("Mosca/moscaderecha.wav");
         scSonidoMoscaD.setLooping(true);
-        if (bUbicacionMosca){
-        scSonidoMoscaD.play();
+        if (bUbicacionMosca) {
+            scSonidoMoscaD.play();
         }
         //Creo el sonido para cuando la mosca estará en la izquierda y loopeo
-        scSonidoMoscaI = new SoundClip ("Mosca/moscaizquierda.wav");
+        scSonidoMoscaI = new SoundClip("Mosca/moscaizquierda.wav");
         scSonidoMoscaI.setLooping(!bUbicacionMosca);
-        if (!bUbicacionMosca){
-        scSonidoMoscaI.play();
+        if (!bUbicacionMosca) {
+            scSonidoMoscaI.play();
         }
-        
+
         //Inicializo la dirección de la mosca como 0
         iDireccionMosca = 0;
         addKeyListener(this);
@@ -305,40 +303,39 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
      */
     public void actualiza() {
         // instrucciones para actualizar personajes
-              iDireccionMosca = ((int) (Math.random() * (5-1) + 1));
-              switch(iDireccionMosca) {
+        iDireccionMosca = ((int) (Math.random() * (5 - 1) + 1));
+        switch (iDireccionMosca) {
 
-                        case 1: {
+            case 1: {
 
-                              perMosca.setY(perMosca.getY() - perMosca.getVelocidad());
-                              break; //se mueve hacia arriba
-                        }
-                        case 2: {
+                perMosca.setY(perMosca.getY() - perMosca.getVelocidad());
+                break; //se mueve hacia arriba
+            }
+            case 2: {
 
-                              perMosca.setY(perMosca.getY() + perMosca.getVelocidad());
-                              break; //se mueve hacia abajo
-                        }
-                        case 3: {
+                perMosca.setY(perMosca.getY() + perMosca.getVelocidad());
+                break; //se mueve hacia abajo
+            }
+            case 3: {
 
-                              perMosca.setX(perMosca.getX() - perMosca.getVelocidad());
-                              break; //se mueve hacia la izquierda
-                        }
-                        case 4: {
+                perMosca.setX(perMosca.getX() - perMosca.getVelocidad());
+                break; //se mueve hacia la izquierda
+            }
+            case 4: {
 
-                              perMosca.setX(perMosca.getX() + perMosca.getVelocidad());
-                              break; //se mueve hacia la derecha
-                        }
-                }
-              //Detecta dónde está la mosca para ver qué clip correr
-              if ( perMosca.getX() > this.getWidth() /2) {
-                  bUbicacionMosca = true;
-                 
-              }
-              else {
-                  bUbicacionMosca = false;
-                 
-              }
-        
+                perMosca.setX(perMosca.getX() + perMosca.getVelocidad());
+                break; //se mueve hacia la derecha
+            }
+        }
+        //Detecta dónde está la mosca para ver qué clip correr
+        if (perMosca.getX() > this.getWidth() / 2) {
+            bUbicacionMosca = true;
+
+        } else {
+            bUbicacionMosca = false;
+
+        }
+
         //Nena actualiza movimiento dependiendo de la tecla que se presionó
         switch (iDireccionCrowbar) {
             case 3:
@@ -356,8 +353,8 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         for (Object lnkCharola : lnkCharolas) {
             Personaje perCharola = (Personaje) lnkCharola;
             if (perCharola.getGolpes() > 1) {
-            perCharola.setVelocidad(perCharola.getVelocidad() + 1);                
-            perCharola.abajo();
+                perCharola.setVelocidad(perCharola.getVelocidad() + 1);
+                perCharola.abajo();
             }
         }
         //Actualiza el movimiento de los corredores
@@ -366,10 +363,9 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             if (bBallFell) {
                 perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2);
                 perProyectil.setY(perCrowbar.getY() - 30);
-            }
-            else {
-            perProyectil.setX(perProyectil.getX() + iMovX);
-            perProyectil.setY(perProyectil.getY() + iMovY);
+            } else {
+                perProyectil.setX(perProyectil.getX() + iMovX);
+                perProyectil.setY(perProyectil.getY() + iMovY);
             }
         }
         if (iVidas < 1) {
@@ -391,15 +387,15 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         if (perCrowbar.getX() <= 0) {
             perCrowbar.setX(0);
         }
-        
-        for (int iIterator = 0 ; iIterator < lnkCharolas.size(); iIterator++) {
-        Personaje perCharola = (Personaje) lnkCharolas.get(iIterator);
-        if (perCharola.getY() >= getHeight()) {
-	lnkCharolas.remove(perCharola);
-	}
-}
 
-            //Checa colisiones de la pelota con paredes y con charolas
+        for (int iIterator = 0; iIterator < lnkCharolas.size(); iIterator++) {
+            Personaje perCharola = (Personaje) lnkCharolas.get(iIterator);
+            if (perCharola.getY() >= getHeight()) {
+                lnkCharolas.remove(perCharola);
+            }
+        }
+
+        //Checa colisiones de la pelota con paredes y con charolas
         for (Object lnkProyectil : lnkProyectiles) {
             Personaje perProyectil = (Personaje) lnkProyectil;
             if (perProyectil.getX() + perProyectil.getAncho() >= getWidth() || perProyectil.getX() <= 0) {
@@ -409,27 +405,24 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             if (perProyectil.colisiona(perCrowbar)) {
                 if (perProyectil.getY() > perCrowbar.getY()) {
                     iMovX = -iMovX;
-                }
-                else {
-                if (( perProyectil.colisionaDerecha(perProyectil) && iMovX < 0)) {
-                    perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
-                    iMovY = -iMovY;
-                    iMovX = -iMovX;
-                    iMovX = 1;
-                }
-                else if ((perProyectil.colisionaIzquierda(perProyectil) && iMovX > 0)) {
-                    perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
-                    iMovY = -iMovY;
-                    iMovX = -iMovX;
-                    iMovX = 1;
-                }
-                else {
-                    iMovY = -iMovY;
-                    iMovX += 4;
-                }
+                } else {
+                    if ((perProyectil.colisionaDerecha(perProyectil) && iMovX < 0)) {
+                        perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                        iMovY = -iMovY;
+                        iMovX = -iMovX;
+                        iMovX = 1;
+                    } else if ((perProyectil.colisionaIzquierda(perProyectil) && iMovX > 0)) {
+                        perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                        iMovY = -iMovY;
+                        iMovX = -iMovX;
+                        iMovX = 1;
+                    } else {
+                        iMovY = -iMovY;
+                        iMovX += 4;
+                    }
                 }
                 scSonidoColisionPelota.play();
-                
+
             }
 
             if (perProyectil.getY() <= 0) {
@@ -437,55 +430,55 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 scSonidoColisionPelota.play();
             }
             for (Object lnkCharola : lnkCharolas) {
-            Personaje perCharola = (Personaje) lnkCharola;
+                Personaje perCharola = (Personaje) lnkCharola;
                 if (perProyectil.colisiona(perCharola) && !perCharola.getDead()) {
                     if (urlImagenCharolaRota != null && (perCharola.getGolpes() > 1)) {
-                    perCharola.setDead(true);
-                    perCharola.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenCharolaRota));
-                    scSonidoColisionCharolaRota.play();
-                    }
-                    else {
+                        iMovY = -iMovY;
+                        perCharola.setDead(true);
+                        perCharola.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenCharolaRota));
+                        scSonidoColisionCharolaRota.play();
+                        iScore += 10;
+                    } else {
+                        iMovY = -iMovY;
                         perCharola.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenCharolaGolpeada));
                         perCharola.setGolpes(perCharola.getGolpes() + 1);
                         scSonidoColisionCharolaGolpeada.play();
+                        iScore++;
                     }
-                    iMovY = -iMovY;
-                    scSonidoColisionCharolaGolpeada.play();
                 }
             }
             //Colisiones de la mosca con las charolas
             for (Object lnkCharola : lnkCharolas) {
-            Personaje perCharola = (Personaje) lnkCharola;
+                Personaje perCharola = (Personaje) lnkCharola;
                 if (perMosca.colisiona(perCharola) && !perCharola.getDead()) {
                     if (urlImagenCharolaRota != null && (perCharola.getGolpes() > 1)) {
-                    perCharola.setDead(true);
-                    perCharola.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenCharolaRota));
-                    scSonidoColisionCharolaRota.play();
-                    }
-                    else {
+                        perCharola.setDead(true);
+                        perCharola.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenCharolaRota));
+                        scSonidoColisionCharolaRota.play();
+                    } else {
                         perCharola.setImagen(Toolkit.getDefaultToolkit().getImage(urlImagenCharolaGolpeada));
                         perCharola.setGolpes(perCharola.getGolpes() + 1);
                         scSonidoColisionCharolaGolpeada.play();
                     }
-                 
+
                     scSonidoColisionCharolaGolpeada.play();
                 }
             }
             //Colisiones de la mosca con las orillas
-            
-            if (perMosca.getX() <0 )    {
+
+            if (perMosca.getX() < 0) {
                 perMosca.setX(10);
             }
-            if (perMosca.getX() > this.getWidth() -perMosca.getAncho() )    {
-                perMosca.setX( this.getWidth()-perMosca.getAncho());
+            if (perMosca.getX() > this.getWidth() - perMosca.getAncho()) {
+                perMosca.setX(this.getWidth() - perMosca.getAncho());
             }
-            if (perMosca.getY() <0 )    {
+            if (perMosca.getY() < 0) {
                 perMosca.setY(2);
             }
-            if (perMosca.getY() > this.getHeight()-perMosca.getAlto() )    {
-                perMosca.setY( this.getHeight() - perMosca.getAlto());
+            if (perMosca.getY() > this.getHeight() - perMosca.getAlto()) {
+                perMosca.setY(this.getHeight() - perMosca.getAlto());
             }
-            
+
             //Si la pelota se sale del juego por el fondo pierde una vida y reinicia en la barreta
             if (perProyectil.getY() + perProyectil.getAlto() >= getHeight()) {
                 iVidas += -1;
@@ -517,8 +510,8 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             graGraficaJFrame = imaImagenJFrame.getGraphics();
         }
         // creo imagen para el background
-        Image imaImagenBackG = 
-                Toolkit.getDefaultToolkit().getImage(urlImagenBackG);
+        Image imaImagenBackG
+                = Toolkit.getDefaultToolkit().getImage(urlImagenBackG);
         // Despliego la imagen
         graGraficaJFrame.drawImage(imaImagenBackG, 0, 0,
                 getWidth(), getHeight(), this);
@@ -548,7 +541,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             //Dibuja la imagen de Nena en la posicion actualizada
             g.drawImage(perCrowbar.getImagen(), perCrowbar.getX(),
                     perCrowbar.getY(), this);
-            
+
             //Dibuja a la mosca en la posición actualizada
             //Dibuja la imagen de Nena en la posicion actualizada
             g.drawImage(perMosca.getImagen(), perMosca.getX(),
@@ -567,7 +560,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 g.drawImage(perProyectil.getImagen(), perProyectil.getX(),
                         perProyectil.getY(), this);
             }
-            
+
             //dibuja la imagen del score y las vidas
             g.drawImage(perScoreVidas.getImagen(), perScoreVidas.getX(),
                     perScoreVidas.getY(), this);
@@ -575,30 +568,30 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             g.setColor(Color.GREEN);
             Font fFont = new Font("Verdana", Font.BOLD, 18);
             g.setFont(fFont);
-            g.drawString( " : " +iScore, 160,495);
-            g.drawString( " : " +iVidas, 200,535);
-            
+            g.drawString(" : " + iScore, 160, 495);
+            g.drawString(" : " + iVidas, 200, 535);
+
         }
         if (bPausado) {
-            g.drawImage(imaImagenPausa, (((getWidth() / 2)) 
-                    - imaImagenPausa.getWidth(this) / 2), (((getHeight() / 2)) 
-                            - imaImagenPausa.getHeight(this) / 2), this);
-                    
+            g.drawImage(imaImagenPausa, (((getWidth() / 2))
+                    - imaImagenPausa.getWidth(this) / 2), (((getHeight() / 2))
+                    - imaImagenPausa.getHeight(this) / 2), this);
+
         }
         if (!bGameStarted) {
-            g.drawImage(imaImagenInicio, (((getWidth() / 2)) 
-                    - imaImagenInicio.getWidth(this) / 2), (((getHeight() / 2)) 
-                            - imaImagenInicio.getHeight(this) / 2), this);
-                    
+            g.drawImage(imaImagenInicio, (((getWidth() / 2))
+                    - imaImagenInicio.getWidth(this) / 2), (((getHeight() / 2))
+                    - imaImagenInicio.getHeight(this) / 2), this);
+
         }
         if (bGameOver) {
-            g.drawImage(imaImagenGOver, (((getWidth() / 2)) 
-                    - imaImagenGOver.getWidth(this) / 2), (((getHeight() / 2)) 
-                            - imaImagenGOver.getHeight(this) / 2), this);
+            g.drawImage(imaImagenGOver, (((getWidth() / 2))
+                    - imaImagenGOver.getWidth(this) / 2), (((getHeight() / 2))
+                    - imaImagenGOver.getHeight(this) / 2), this);
             g.drawImage(perScoreVidas.getImagen(), perScoreVidas.getX(),
                     perScoreVidas.getY(), this);
-            g.drawString( " : " +iScore, 160,595);
-            g.drawString( " : " +iVidas, 200,635);
+            g.drawString(" : " + iScore, 160, 595);
+            g.drawString(" : " + iVidas, 200, 635);
         }
     }
 
@@ -652,7 +645,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                     Personaje perCorre;
                     perCorre = new Personaje(0, 0,
                             Toolkit.getDefaultToolkit().
-                                    getImage(urlImagenPelota));
+                            getImage(urlImagenPelota));
                     perCorre.setX(Integer.parseInt(fileIn.readLine()));
                     perCorre.setY(Integer.parseInt(fileIn.readLine()));
                     perCorre.setVelocidad(Integer.parseInt(fileIn.readLine()));
@@ -665,7 +658,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                     Personaje perCamina;
                     perCamina = new Personaje(0, 0,
                             Toolkit.getDefaultToolkit().
-                                    getImage(urlImagenCharola));
+                            getImage(urlImagenCharola));
                     perCamina.setX(Integer.parseInt(fileIn.readLine()));
                     perCamina.setY(Integer.parseInt(fileIn.readLine()));
                     perCamina.setVelocidad(Integer.parseInt(fileIn.readLine()));
@@ -709,7 +702,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         // si presiono Space bar para arriba
         if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
             if (bGameStarted) {
-            bBallFell = false;   // cambio la dirección hacia arriba
+                bBallFell = false;   // cambio la dirección hacia arriba
             }
         }
         if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -726,7 +719,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         }
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_C) {
-            
+
             bGameStarted = true;
             bGameOver = false;
 
