@@ -55,7 +55,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private int iScore;
     //Contador para las veces que el crowbar ha sido colisionado (a cambiar
     //por número de veces que la charola ha sido colisionada?
-    private int iColisionesBate;
     // Objeto SoundClip cuando la pelota colisiona con el crowbar o la pared
     private SoundClip scSonidoColisionPelota;  
     //Objeto SoundClip para cuando la charola es golpeada la primera vez
@@ -93,6 +92,10 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private URL urlImagenInicio = this.getClass().getResource("pantallaInicio.png");
     //Imagen al pausar el juego.
     private Image imaImagenInicio = Toolkit.getDefaultToolkit().getImage(urlImagenInicio);
+    //subo la imagen del bg
+    private URL urlImagenGOver = this.getClass().getResource("game_over.jpg");
+    // creo imagen para el background
+    private Image imaImagenGOver = Toolkit.getDefaultToolkit().getImage(urlImagenGOver);
     //X del proyectil
     private int iMovX;
     //Y del proyectil
@@ -101,6 +104,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private boolean bGameStarted;
     //Ubicación de la mosca para sonido estereo: True = Der. False = Izq
     private boolean bUbicacionMosca;
+    private boolean bGameOver;
 
     //Constructor de BreakingBricks
     public BreakingBricks() {
@@ -127,9 +131,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
         //Inicializamos el score en 0
         iScore = 0;
-
-        //inicializamos las colisiones de los corredores con nena
-        iColisionesBate = 0;
         
         //inicializamos el movimiento del proyectil en X en -1
         iMovX = 4;
@@ -139,6 +140,9 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         
         //inicializamos la variable que checa si ya empezó el juego en falso.
         bGameStarted = false;
+        
+        //inicializamos la variable que checa si ya empezó el juego en falso.
+        bGameOver = false;
 
         // se crea imagen del crowbar
         URL urlImagenCrowbar = this.getClass().getResource("crowbar.png");
@@ -269,12 +273,12 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
      */
     public void run() {
         // se realiza el ciclo del juego en este caso nunca termina
-        while (iVidas > 0) {
+        while (true) {
             /* mientras dure el juego, se actualizan posiciones de jugadores
              se checa si hubo colisiones para desaparecer jugadores o corregir
              movimientos y se vuelve a pintar todo
              */
-            if (!bPausado && bGameStarted) {
+            if (!bPausado && bGameStarted && !bGameOver) {
                 actualiza();
                 checaColision();
                 repaint();
@@ -364,9 +368,8 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             perProyectil.setX(perProyectil.getX() + iMovX);
             perProyectil.setY(perProyectil.getY() + iMovY);
         }
-        if (iColisionesBate >= 5) {
-            iColisionesBate = 0;
-            iVidas = iVidas - 1;
+        if (iVidas < 1) {
+            bGameOver = true;
         }
     }
 
@@ -393,15 +396,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         if (perCrowbar.getX() <= 0) {
             perCrowbar.setX(0);
         }
-//        //Checa colisiones de las charolas con el piso y las manda borrar.
-//        for (Object lnkCharola : lnkCharolas) {
-//            Personaje perCharola = (Personaje) lnkCharola;
-//            if (perCharola.getY() >= getHeight()) {
-//                perCharola.setX(0 - perCharola.getAncho() * 2);
-//                perCharola.setY(0);
-//                perCharola.setVelocidad(0);
-//            }
-//        }
+        
         for (int iIterator = 0 ; iIterator < lnkCharolas.size(); iIterator++) {
         Personaje perCharola = (Personaje) lnkCharolas.get(iIterator);
         if (perCharola.getY() >= getHeight()) {
@@ -586,21 +581,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             g.drawString( " : " +iVidas, 200,535);
             
         }
-        if (iVidas <= 0) {
-
-            //subo la imagen del bg
-            URL urlImagenGOver = this.getClass().getResource("game_over.jpg");
-            // creo imagen para el background
-            Image imaImagenGOver = 
-                    Toolkit.getDefaultToolkit().getImage(urlImagenGOver);
-            // Despliego la imagen
-            g.drawImage(imaImagenGOver, 0, 0,
-                    getWidth(), getHeight(), this);
-            g.drawImage(perScoreVidas.getImagen(), perScoreVidas.getX(),
-                    perScoreVidas.getY(), this);
-            g.drawString( " : " +iScore, 160,595);
-            g.drawString( " : " +iVidas, 200,635);
-        }
         if (bPausado) {
             g.drawImage(imaImagenPausa, (((getWidth() / 2)) 
                     - imaImagenPausa.getWidth(this) / 2), (((getHeight() / 2)) 
@@ -612,6 +592,15 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                     - imaImagenInicio.getWidth(this) / 2), (((getHeight() / 2)) 
                             - imaImagenInicio.getHeight(this) / 2), this);
                     
+        }
+        if (bGameOver) {
+            g.drawImage(imaImagenGOver, (((getWidth() / 2)) 
+                    - imaImagenGOver.getWidth(this) / 2), (((getHeight() / 2)) 
+                            - imaImagenGOver.getHeight(this) / 2), this);
+            g.drawImage(perScoreVidas.getImagen(), perScoreVidas.getX(),
+                    perScoreVidas.getY(), this);
+            g.drawString( " : " +iScore, 160,595);
+            g.drawString( " : " +iVidas, 200,635);
         }
     }
 
@@ -739,6 +728,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         if (keyEvent.getKeyCode() == KeyEvent.VK_C) {
             
             bGameStarted = true;
+            bGameOver = false;
 
             try {
                 leeArchivo(); //Carga datos
