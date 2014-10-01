@@ -393,15 +393,22 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         if (perCrowbar.getX() <= 0) {
             perCrowbar.setX(0);
         }
-        //Checa colisiones de los caminadores
-        for (Object lnkCharola : lnkCharolas) {
-            Personaje perCharola = (Personaje) lnkCharola;
-            if (perCharola.getY() >= getHeight()) {
-                perCharola.setX(0 - perCharola.getAncho() * 2);
-                perCharola.setY(0);
-                perCharola.setVelocidad(0);
-            }
-        }
+//        //Checa colisiones de las charolas con el piso y las manda borrar.
+//        for (Object lnkCharola : lnkCharolas) {
+//            Personaje perCharola = (Personaje) lnkCharola;
+//            if (perCharola.getY() >= getHeight()) {
+//                perCharola.setX(0 - perCharola.getAncho() * 2);
+//                perCharola.setY(0);
+//                perCharola.setVelocidad(0);
+//            }
+//        }
+        for (int iIterator = 0 ; iIterator < lnkCharolas.size(); iIterator++) {
+        Personaje perCharola = (Personaje) lnkCharolas.get(iIterator);
+        if (perCharola.getY() >= getHeight()) {
+	lnkCharolas.remove(perCharola);
+	}
+}
+
             //Checa colisiones de la pelota con paredes y con charolas
         for (Object lnkProyectil : lnkProyectiles) {
             Personaje perProyectil = (Personaje) lnkProyectil;
