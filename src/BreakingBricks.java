@@ -7,8 +7,6 @@
  * A00810480
  * @version 1.01 2014/09/17
  */
-//import java.awt.Color;
-//import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
@@ -17,22 +15,16 @@ import java.awt.event.KeyListener;
 import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.JFrame;
-//import javax.swing.JOptionPane;
 import java.net.URL;
-//import java.util.HashSet;
 import java.util.LinkedList;
-//import java.util.Set;
-//import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-//import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.swing.ImageIcon;
 
 public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
@@ -409,16 +401,8 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 perCharola.setY(0);
                 perCharola.setVelocidad(0);
             }
-//            if (perCharola.colisiona(perCrowbar)) {
-//                perCharola.setX(0 - perCharola.getAncho());
-//                perCharola.setY((int) (Math.random() * (getHeight() 
-//                        - perCharola.getAlto())));
-//                perCharola.setVelocidad((int) (Math.random() * (5 - 3) + 3));
-//                iScore = iScore + 1;
-//                scSonidoColisionCharolaGolpeada.play();
-//            }
         }
-        //Checa colisiones de los corredores
+            //Checa colisiones de la pelota con paredes y con charolas
         for (Object lnkProyectil : lnkProyectiles) {
             Personaje perProyectil = (Personaje) lnkProyectil;
             if (perProyectil.getX() + perProyectil.getAncho() >= getWidth() || perProyectil.getX() <= 0) {
@@ -426,27 +410,31 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 scSonidoColisionPelota.play();
             }
             if (perProyectil.colisiona(perCrowbar)) {
-                iMovY = -iMovY;
-                perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
                 if (perProyectil.getY() > perCrowbar.getY()) {
                     iMovX = -iMovX;
                 }
                 else {
-                if (( perProyectil.getX() > (perCrowbar.getX() + (perCrowbar.getAncho() - perCrowbar.getAncho() / 4)) && iMovX < 0) || ( perProyectil.getX() + perProyectil.getAncho() > (perCrowbar.getX() + (perCrowbar.getAncho() - perCrowbar.getAncho() / 4)))) {
+                if (( perProyectil.colisionaDerecha(perProyectil) && iMovX < 0)) {
+                    perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                    iMovY = -iMovY;
                     iMovX = -iMovX;
                     iMovX = 1;
                 }
-                else if ((perProyectil.getX() < (perCrowbar.getX() + perCrowbar.getAncho() / 4) && iMovX > 0) || (perProyectil.getX() + perProyectil.getAncho() < (perCrowbar.getX() + perCrowbar.getAncho() / 4) && iMovX > 0)) {
+                else if ((perProyectil.colisionaIzquierda(perProyectil) && iMovX > 0)) {
+                    perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                    iMovY = -iMovY;
                     iMovX = -iMovX;
                     iMovX = 1;
                 }
                 else {
+                    iMovY = -iMovY;
                     iMovX += 4;
                 }
                 }
                 scSonidoColisionPelota.play();
                 
             }
+
             if (perProyectil.getY() <= 0) {
                 iMovY = -iMovY;
                 scSonidoColisionPelota.play();
@@ -464,16 +452,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                         perCharola.setGolpes(perCharola.getGolpes() + 1);
                         scSonidoColisionCharolaGolpeada.play();
                     }
-//                    if ( iMovY > 0 ) {
-//                        perProyectil.setY(perCharola.getY() - perProyectil.getAlto());
-//                        iMovY = -iMovY;
-//                        scSonidoColisionCharolaGolpeada.play();
-//                    }
-//                    if ( iMovY < 0 ) {
-//                    perProyectil.setY(perCharola.getY() +  perCharola.getAlto());
-//                    iMovY = -iMovY;
-//                    scSonidoColisionCharolaGolpeada.play();
-//                    }
                     iMovY = -iMovY;
                     scSonidoColisionCharolaGolpeada.play();
                 }
@@ -667,14 +645,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             fileIn = new BufferedReader(new FileReader("lvl1.txt"));
             bNoFileFound = false;
         } catch (FileNotFoundException e) {
-            //Este pedazo de código es si quisieramos escribir un archivo en
-            //Caso de que no existiera uno, pero no lo ocupamos porque usé algo
-            //mejor.
-//            File puntos = new File("datos.txt");
-//            PrintWriter fileOut = new PrintWriter(puntos);
-//            fileOut.println("1,1");
-//            fileOut.close();
-//            fileIn = new BufferedReader(new FileReader("datos.txt"));
             bNoFileFound = true;
             init();
         }
