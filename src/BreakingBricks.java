@@ -105,6 +105,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     //Ubicación de la mosca para sonido estereo: True = Der. False = Izq
     private boolean bUbicacionMosca;
     private boolean bGameOver;
+    private boolean bBallFell;
 
     //Constructor de BreakingBricks
     public BreakingBricks() {
@@ -143,6 +144,9 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         
         //inicializamos la variable que checa si ya empezó el juego en falso.
         bGameOver = false;
+        
+        //inicializamos la variable que checa si la pelota se salió del juego.
+        bBallFell = true;
 
         // se crea imagen del crowbar
         URL urlImagenCrowbar = this.getClass().getResource("crowbar.png");
@@ -337,12 +341,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         
         //Nena actualiza movimiento dependiendo de la tecla que se presionó
         switch (iDireccionCrowbar) {
-//            case 1:
-//                perCrowbar.abajo();
-//                break;
-//            case 2:
-//                perCrowbar.arriba();
-//                break;
             case 3:
                 perCrowbar.derecha();
                 break;
@@ -365,8 +363,14 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         //Actualiza el movimiento de los corredores
         for (Object lnkProyectil : lnkProyectiles) {
             Personaje perProyectil = (Personaje) lnkProyectil;
+            if (bBallFell) {
+                perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2);
+                perProyectil.setY(perCrowbar.getY() - 30);
+            }
+            else {
             perProyectil.setX(perProyectil.getX() + iMovX);
             perProyectil.setY(perProyectil.getY() + iMovY);
+            }
         }
         if (iVidas < 1) {
             bGameOver = true;
@@ -381,15 +385,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
      *
      */
     public void checaColision() {
-        // instrucciones para checar colision y reacomodar personajes si 
-        // es necesario
-        //Checa colisiones de Nena
-//        if (perCrowbar.getY() + perCrowbar.getAlto() > getHeight()) {
-//            perCrowbar.setY(getHeight() - perCrowbar.getAlto());
-//        }
-//        if (perCrowbar.getY() <= 0) {
-//            perCrowbar.setY(0);
-//        }
         if ((perCrowbar.getX() + perCrowbar.getAncho()) >= getWidth()) {
             perCrowbar.setX(getWidth() - perCrowbar.getAncho());
         }
@@ -491,8 +486,11 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 perMosca.setY( this.getHeight() - perMosca.getAlto());
             }
             
+            //Si la pelota se sale del juego por el fondo pierde una vida y reinicia en la barreta
             if (perProyectil.getY() + perProyectil.getAlto() >= getHeight()) {
                 iVidas += -1;
+                bBallFell = true;
+                iMovY = -iMovY;
                 perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2);
                 perProyectil.setY(perCrowbar.getY() - 30);
                 scSonidoColisionPelota.play();
@@ -708,10 +706,12 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 //        if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
 //            iDireccionCrowbar = 1;  // cambio la dirección hacia abajo
 //        }
-//        // si presiono flecha para arriba
-//        if (keyEvent.getKeyCode() == KeyEvent.VK_W) {
-//            iDireccionCrowbar = 2;   // cambio la dirección hacia arriba
-//        }
+        // si presiono Space bar para arriba
+        if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (bGameStarted) {
+            bBallFell = false;   // cambio la dirección hacia arriba
+            }
+        }
         if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
             iDireccionCrowbar = 5;  // cambio la dirección hacia derecha
         }
