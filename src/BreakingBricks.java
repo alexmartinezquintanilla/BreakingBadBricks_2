@@ -107,7 +107,9 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private boolean bUbicacionMosca;
     private boolean bGameOver;
     private boolean bBallFell;
-    private int lvl;
+    private int iLvl;
+    private boolean bLevelCleared;
+    private boolean bGameWon;
 
     //Constructor de BreakingBricks
     public BreakingBricks() {
@@ -150,13 +152,19 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         //inicializamos la variable que checa si la pelota se salió del juego.
         bBallFell = true;
         
+        //Inicializamos el nivel como no completado
+        bLevelCleared = false;
+        
+        //Inicializamos el juego como no ganado
+        bGameWon = false;
+        
         //Inicializamos el arreglo de niveles.
         sarrLevels[0] = "lvl1.txt";
         sarrLevels[1] = "lvl2.txt";
         sarrLevels[2] = "lvl2.txt";
         
         //inicializamos el lvl en 0
-        lvl = 0;
+        iLvl = 0;
         
         // se crea imagen del crowbar
         URL urlImagenCrowbar = this.getClass().getResource("crowbar.png");
@@ -185,7 +193,6 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
         // se posiciona al crowbar en el centro de la pantalla y en la parte inferior
         perCrowbar.setX((getWidth() / 2) - (perCrowbar.getAncho() / 2));
-//        perCrowbar.setY((getHeight() / 2) - (perCrowbar.getAlto() / 2));
         perCrowbar.setY(getHeight() - perCrowbar.getAlto() - 20);
 
         // se posiciona a Susy en alguna parte al azar del cuadrante 
@@ -381,6 +388,21 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         if (iVidas < 1) {
             bGameOver = true;
         }
+        if (bLevelCleared) {
+            iLvl++;
+            bLevelCleared = false;
+            if (iLvl > 3) {
+                bGameWon = true;
+            }
+            else {
+                try {
+                leeArchivo(); //Carga datos
+            } catch (IOException ex) {
+                Logger.getLogger(BreakingBricks.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+            }
+        }
     }
 
     /**
@@ -403,6 +425,10 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             if (perCharola.getY() >= getHeight()) {
                 lnkCharolas.remove(perCharola);
             }
+        }
+        
+        if (lnkCharolas.size() == 0) {
+            bLevelCleared = true;
         }
 
         //Checa colisiones de la pelota con paredes y con charolas
@@ -639,14 +665,14 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         BufferedReader fileIn;
         boolean bNoFileFound;
         try {
-            fileIn = new BufferedReader(new FileReader(sarrLevels[lvl]));
+            fileIn = new BufferedReader(new FileReader(sarrLevels[iLvl]));
             bNoFileFound = false;
         } catch (FileNotFoundException e) {
             bNoFileFound = true;
             init();
         }
         if (!bNoFileFound) {
-            fileIn = new BufferedReader(new FileReader(sarrLevels[lvl]));
+            fileIn = new BufferedReader(new FileReader(sarrLevels[iLvl]));
             String dato = fileIn.readLine();
             while (dato != null) {
                 int iCorredores = Integer.parseInt(dato);
