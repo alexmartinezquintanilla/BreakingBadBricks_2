@@ -393,6 +393,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
             bLevelCleared = false;
             bGameStarted = true;
             bGameOver = false;
+            bBallFell=true;
             if (iLvl > 3) {
                 bGameWon = true;
             } else {
@@ -529,9 +530,9 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 iVidas += -1;
                 bBallFell = true;
                 iMovY = -iMovY;
+                iMovX = -iMovX/iMovX;
                 perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2 - perProyectil.getAncho() / 2);
                 perProyectil.setY(perCrowbar.getY() - 30);
-                scSonidoColisionPelota.play();
             }
         }
     }
