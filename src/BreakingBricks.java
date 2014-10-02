@@ -600,8 +600,8 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                     - imaImagenGOver.getHeight(this) / 2), this);
             g.drawImage(perScoreVidas.getImagen(), perScoreVidas.getX(),
                     perScoreVidas.getY(), this);
-            g.drawString(" : " + iScore, 160, 595);
-            g.drawString(" : " + iVidas, 200, 635);
+            g.drawString(" : " + iScore, 160, 495);
+            g.drawString(" : " + iVidas, 200, 535);
         }
     }
 
