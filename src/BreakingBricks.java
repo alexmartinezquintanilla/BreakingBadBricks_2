@@ -97,6 +97,10 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private URL urlImagenGOver = this.getClass().getResource("game_over.jpg");
     // creo imagen para el background
     private Image imaImagenGOver = Toolkit.getDefaultToolkit().getImage(urlImagenGOver);
+    //url para la imagen
+    private URL urlImagenGwon = this.getClass().getResource("gamewon.png");
+    //se creo imagen para cuando gana el juego
+    private Image imaImagenGwon = Toolkit.getDefaultToolkit().getImage(urlImagenGwon);
     //X del proyectil
     private int iMovX;
     //Y del proyectil

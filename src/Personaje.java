@@ -363,6 +363,8 @@ public class Personaje {
         return recObjeto.intersects(recParametro);
     }
     
+    
+    
     /** 
      * colisiona
      * 
