@@ -371,7 +371,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         for (Object lnkProyectil : lnkProyectiles) {
             Personaje perProyectil = (Personaje) lnkProyectil;
             if (bBallFell) {
-                perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2);
+                perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2 - perProyectil.getAncho() / 2);
                 perProyectil.setY(perCrowbar.getY() - 30);
             } else {
                 perProyectil.setX(perProyectil.getX() + iMovX);
@@ -494,7 +494,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 iVidas += -1;
                 bBallFell = true;
                 iMovY = -iMovY;
-                perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2);
+                perProyectil.setX(perCrowbar.getX() + perCrowbar.getAncho() / 2 - perProyectil.getAncho() / 2);
                 perProyectil.setY(perCrowbar.getY() - 30);
                 scSonidoColisionPelota.play();
             }
