@@ -151,21 +151,21 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
         //inicializamos la variable que checa si la pelota se salió del juego.
         bBallFell = true;
-        
+
         //Inicializamos el nivel como no completado
         bLevelCleared = false;
-        
+
         //Inicializamos el juego como no ganado
         bGameWon = false;
-        
+
         //Inicializamos el arreglo de niveles.
         sarrLevels[0] = "lvl1.txt";
         sarrLevels[1] = "lvl2.txt";
         sarrLevels[2] = "lvl2.txt";
-        
+
         //inicializamos el lvl en 0
         iLvl = 0;
-        
+
         // se crea imagen del crowbar
         URL urlImagenCrowbar = this.getClass().getResource("crowbar.png");
 
@@ -391,16 +391,17 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         if (bLevelCleared) {
             iLvl++;
             bLevelCleared = false;
+            bGameStarted = true;
+            bGameOver = false;
             if (iLvl > 3) {
                 bGameWon = true;
-            }
-            else {
+            } else {
                 try {
-                leeArchivo(); //Carga datos
-            } catch (IOException ex) {
-                Logger.getLogger(BreakingBricks.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
+                    leeArchivo(); //Carga datos
+                } catch (IOException ex) {
+                    Logger.getLogger(BreakingBricks.class.getName()).log(Level.SEVERE,
+                            null, ex);
+                }
             }
         }
     }
@@ -426,7 +427,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 lnkCharolas.remove(perCharola);
             }
         }
-        
+
         if (lnkCharolas.size() == 0) {
             bLevelCleared = true;
         }
@@ -438,27 +439,35 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
                 iMovX = -iMovX;
                 scSonidoColisionPelota.play();
             }
-            if (perProyectil.colisiona(perCrowbar)) {
-                if (perProyectil.getY() > perCrowbar.getY()) {
-                    iMovX = -iMovX;
-                } else {
-                    if ((perProyectil.colisionaDerecha(perProyectil) && iMovX < 0)) {
-                        perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
-                        iMovY = -iMovY;
-                        iMovX = -iMovX;
-                        iMovX = 1;
-                    } else if ((perProyectil.colisionaIzquierda(perProyectil) && iMovX > 0)) {
-                        perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
-                        iMovY = -iMovY;
-                        iMovX = -iMovX;
-                        iMovX = 1;
-                    } else {
-                        iMovY = -iMovY;
-                        iMovX += 4;
-                    }
-                }
+            if (perProyectil.getY() > perCrowbar.getY()) {
+                iMovX = -iMovX;
                 scSonidoColisionPelota.play();
-
+            }
+            if ((perCrowbar.colisionaDerecha(perProyectil) && iMovX <= 0)) {
+                perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                iMovY = -iMovY;
+                iMovX = 1;
+                scSonidoColisionPelota.play();
+            } else if ((perCrowbar.colisionaDerecha(perProyectil) && iMovX >= 0)) {
+                perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                iMovY = -iMovY;
+                iMovX += 4;
+                scSonidoColisionPelota.play();
+            }
+            if ((perCrowbar.colisionaIzquierda(perProyectil) && iMovX >= 0)) {
+                perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                iMovY = -iMovY;
+                iMovX = -1;
+            } else if ((perCrowbar.colisionaIzquierda(perProyectil) && iMovX <= 0)) {
+                perProyectil.setY(perCrowbar.getY() - perProyectil.getAlto());
+                iMovY = -iMovY;
+                iMovX += -4;
+                scSonidoColisionPelota.play();
+            }
+            if ((perCrowbar.colisionaEnMedio(perProyectil))) {
+                iMovY = -iMovY;
+                iMovX = 0;
+                scSonidoColisionPelota.play();
             }
 
             if (perProyectil.getY() <= 0) {

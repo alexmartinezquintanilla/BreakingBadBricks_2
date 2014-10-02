@@ -322,7 +322,7 @@ public class Personaje {
         
         // creo un objeto rectangulo a partir de este objeto Personaje
         Rectangle recObjeto = new Rectangle(this.getX(),
-                this.getY(), (this.getAncho() / 3),
+                this.getY(), (this.getAncho() / 4),
                 this.getAlto());
         
         // creo un objeto rectangulo a partir del objeto Personaje parametro
@@ -336,8 +336,8 @@ public class Personaje {
     public boolean colisionaDerecha (Personaje aniParametro) {
         
         // creo un objeto rectangulo a partir de este objeto Personaje
-        Rectangle recObjeto = new Rectangle(this.getX() + (this.getAncho()/3 *2),
-                this.getY(), this.getAncho(),
+        Rectangle recObjeto = new Rectangle(this.getX() + (this.getAncho()/4 * 3),
+                this.getY(), this.getAncho() / 4,
                 this.getAlto());
         
         // creo un objeto rectangulo a partir del objeto Personaje parametro
@@ -351,8 +351,8 @@ public class Personaje {
     public boolean colisionaEnMedio (Personaje aniParametro) {
         
         // creo un objeto rectangulo a partir de este objeto Personaje
-        Rectangle recObjeto = new Rectangle(this.getX() + (this.getAncho()/4),
-                this.getY(), this.getAncho() / 3,
+        Rectangle recObjeto = new Rectangle(this.getX() + (this.getAncho() / 4),
+                this.getY(), this.getAncho() / 4 * 2,
                 this.getAlto());
         
         // creo un objeto rectangulo a partir del objeto Personaje parametro
