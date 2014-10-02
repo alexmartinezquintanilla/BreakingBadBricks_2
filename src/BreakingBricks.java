@@ -53,6 +53,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private LinkedList lnkProyectiles;
     //Contador de puntos
     private int iScore;
+    private String[] sarrLevels = new String[3];
     //Contador para las veces que el crowbar ha sido colisionado (a cambiar
     //por número de veces que la charola ha sido colisionada?
     // Objeto SoundClip cuando la pelota colisiona con el crowbar o la pared
@@ -106,6 +107,7 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
     private boolean bUbicacionMosca;
     private boolean bGameOver;
     private boolean bBallFell;
+    private int lvl;
 
     //Constructor de BreakingBricks
     public BreakingBricks() {
@@ -147,7 +149,15 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
 
         //inicializamos la variable que checa si la pelota se salió del juego.
         bBallFell = true;
-
+        
+        //Inicializamos el arreglo de niveles.
+        sarrLevels[0] = "lvl1.txt";
+        sarrLevels[1] = "lvl2.txt";
+        sarrLevels[2] = "lvl2.txt";
+        
+        //inicializamos el lvl en 0
+        lvl = 0;
+        
         // se crea imagen del crowbar
         URL urlImagenCrowbar = this.getClass().getResource("crowbar.png");
 
@@ -629,14 +639,14 @@ public class BreakingBricks extends JFrame implements Runnable, KeyListener {
         BufferedReader fileIn;
         boolean bNoFileFound;
         try {
-            fileIn = new BufferedReader(new FileReader("lvl1.txt"));
+            fileIn = new BufferedReader(new FileReader(sarrLevels[lvl]));
             bNoFileFound = false;
         } catch (FileNotFoundException e) {
             bNoFileFound = true;
             init();
         }
         if (!bNoFileFound) {
-            fileIn = new BufferedReader(new FileReader("lvl1.txt"));
+            fileIn = new BufferedReader(new FileReader(sarrLevels[lvl]));
             String dato = fileIn.readLine();
             while (dato != null) {
                 int iCorredores = Integer.parseInt(dato);
